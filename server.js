@@ -59,7 +59,7 @@ app.post('/send-email', (req, res, next) => {
 
 
 app.get('/', (req, res, next) => {
-    return 'hello in heroku project i am very happy!'
+    res.send( 'hello in heroku project i am very happy!');
 })
 
 
