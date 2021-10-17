@@ -55,6 +55,11 @@ app.post('/send-email', (req, res, next) => {
             res.status(201).json({ msg: `email sent to ${email}` });
         }
     });
+});
+
+
+app.get('/', (req, res, next) => {
+    return 'hello in heroku project i am very happy!'
 })
 
 
