@@ -31,13 +31,13 @@ app.post('/send-email', (req, res, next) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "bilelassekra@gmail.com",
-            pass: "bilel123assekra",
+            user: process.env.email,
+            pass: process.env.password,
         },
     });
 
     const mailOptions = {
-        from: "bilelassekra@gmail.com",
+        from: process.env.email,
         to: email,
         subject: "Welcome",
         html:
