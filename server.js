@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require("nodemailer");
-const port = process.env.PORT || 3000
+let dotenv = require('dotenv').config();
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,7 +28,8 @@ app.post('/send-email', (req, res, next) => {
     let dataTable = qrCodeData.split(' ');
     let email = dataTable.filter(data => data.indexOf('@') !== -1)[0].split('//')[1];
     console.log(email);
-    res.status(200).json({msg: 'success!'})
+    console.log(process.env.email, process.env.password);
+    // res.status(200).json({msg: 'success!'})
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -49,7 +51,7 @@ app.post('/send-email', (req, res, next) => {
     transporter.sendMail(mailOptions, function (err, info) {
         if (err) {
             console.log(err);
-            return res.status(500).json({ message: "server error" });
+            return res.status(500).json({ msg: "server error" });
         } else {
             console.log("Email sent" + info.response);
             res.status(201).json({ msg: `email sent to ${email}` });
