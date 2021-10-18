@@ -24,6 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/send-email', (req, res, next) => {
+    console.log(req.body);
     let qrCodeData = req.body.qrCode;
     if (!qrCodeData) {
        return  res.status(500).json({msg: 'missing data'});
