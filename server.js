@@ -25,10 +25,14 @@ app.use((req, res, next) => {
 
 app.post('/send-email', (req, res, next) => {
     let qrCodeData = req.body.qrCode;
+    if (!qrCodeData) {
+        res.status(500).json({msg: 'missing data'});
+    }
     let dataTable = qrCodeData.split(' ');
     let email = dataTable.filter(data => data.indexOf('@') !== -1)[0].split('//')[1];
-    console.log(email);
-    console.log(process.env.email, process.env.password);
+    if (!email) {
+        res.status(500).json({msg: 'invalid email'});
+    }
     // res.status(200).json({msg: 'success!'})
     const transporter = nodemailer.createTransport({
         service: "gmail",
