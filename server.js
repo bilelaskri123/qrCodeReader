@@ -30,7 +30,7 @@ app.post('/send-email', (req, res, next) => {
     if (!qrCodeData) {
        return  res.status(500).json({msg: 'missing data'});
     }
-    let dataTable = qrCodeData.split(' ');
+    let dataTable = qrCodeData.qrCode.split(' ');
     let email = dataTable.filter(data => data.indexOf('@') !== -1)[0].split('//')[1];
     if (!email) {
         return res.status(500).json({msg: 'invalid email'});
