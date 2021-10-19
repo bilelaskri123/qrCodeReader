@@ -25,45 +25,44 @@ app.use((req, res, next) => {
 
 app.post('/send-email', (req, res, next) => {
     console.log(req.body);
-    res.status(201).json({ msg: `email sent` });
-    // let qrCodeData = req.body.qrCode;
-    // res.send({msg: 'email sent'});
-    // if (!qrCodeData) {
-    //    return  res.status(500).json({msg: 'missing data'});
-    // }
-    // let dataTable = qrCodeData.split(' ');
-    // let email = dataTable.filter(data => data.indexOf('@') !== -1)[0].split('//')[1];
-    // if (!email) {
-    //     return res.status(500).json({msg: 'invalid email'});
-    // }
-    // // res.status(200).json({msg: 'success!'})
-    // const transporter = nodemailer.createTransport({
-    //     service: "gmail",
-    //     auth: {
-    //         user: process.env.email,
-    //         pass: process.env.password,
-    //     },
-    // });
-    //
-    // const mailOptions = {
-    //     from: process.env.email,
-    //     to: email,
-    //     subject: "Welcome",
-    //     html:
-    //         `<h3> Hi <strong> ${email} </strong> thank you for accepting our invitation </h3> <br><br> ` +
-    //         "<br><strong> manager of Bee: chiheb DAOUD</strong> " +
-    //         "<br><strong> Best regards</strong> "
-    // };
-    //
-    // transporter.sendMail(mailOptions, function (err, info) {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(500).json({ msg: "server error" });
-    //     } else {
-    //         console.log("Email sent" + info.response);
-    //         res.status(201).json({ msg: `email sent to ${email}` });
-    //     }
-    // });
+    let qrCodeData = req.body.qrCode;
+    res.send({msg: 'email sent'});
+    if (!qrCodeData) {
+       return  res.status(500).json({msg: 'missing data'});
+    }
+    let dataTable = qrCodeData.split(' ');
+    let email = dataTable.filter(data => data.indexOf('@') !== -1)[0].split('//')[1];
+    if (!email) {
+        return res.status(500).json({msg: 'invalid email'});
+    }
+    // res.status(200).json({msg: 'success!'})
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.email,
+            pass: process.env.password,
+        },
+    });
+
+    const mailOptions = {
+        from: process.env.email,
+        to: email,
+        subject: "Welcome",
+        html:
+            `<h3> Hi <strong> ${email} </strong> thank you for accepting our invitation </h3> <br><br> ` +
+            "<br><strong> manager of Bee: chiheb DAOUD</strong> " +
+            "<br><strong> Best regards</strong> "
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ msg: "server error" });
+        } else {
+            console.log("Email sent" + info.response);
+            res.status(201).json({ msg: `email sent to ${email}` });
+        }
+    });
 });
 
 
